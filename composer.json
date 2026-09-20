@@ -1,0 +1,24 @@
+{
+    "name": "cuongcds/ci3-open-sso",
+    "description": "Generic OAuth-style SSO client for CodeIgniter 3 apps: login redirect + callback token exchange, with pluggable redirect-target storage",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.0",
+        "ext-json": "*",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ci3Open\\Sso\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ci3Open\\Sso\\Tests\\": "tests/"
+        }
+    }
+}
