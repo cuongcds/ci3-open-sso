@@ -10,7 +10,15 @@ app's SSO controller so the same flow can be reused across projects.
 
 ```bash
 composer require cuongcds/ci3-open-sso
+php vendor/bin/install-files.php
 ```
+
+The second command copies this SDK's ready-to-use `application/config/open-sso.php`,
+`application/controllers/Opensso_oauth.php` and
+`application/views/plugins/open-sso/` into your project's own `application/`
+directory (never overwrites existing files — pass `--force` to replace them).
+See [examples/README.md](examples/README.md) for what's copied and the
+remaining manual steps (routes, mapping the SSO user to your own user table).
 
 ## Why a redirect store abstraction?
 
@@ -30,6 +38,8 @@ for the provider and read back on return. This is exactly what
 use Ci3Open\Sso\SsoClient;
 use Ci3Open\Sso\SsoConfig;
 use Ci3Open\Sso\Storage\SessionRedirectStore;
+
+$this->load->config('open-sso'); // application/config/open-sso.php
 
 $config = new SsoConfig(
     providerHost: config_item('sso_provider_host'),
@@ -71,14 +81,18 @@ public function callback()
 }
 ```
 
-A full example controller is in [examples/oauth-controller.php](examples/oauth-controller.php).
+Ready-to-copy files (controller, view, config) are in
+[examples/application](examples/application) — see
+[examples/README.md](examples/README.md) for the copy commands.
 
 ### Forcing SSO-only login/register
 
 In your login/register controller actions, before rendering the form:
 
 ```php
-if (config_item('force_sso')) {
+$this->load->config('open-sso');
+
+if (config_item('sso_force')) {
     $redirectTo = $this->input->get('redirect') ?: null;
     redirect($sso->getLoginUrl($redirectTo));
 }

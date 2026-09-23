@@ -11,6 +11,9 @@
     "require-dev": {
         "phpunit/phpunit": "^9.6"
     },
+    "bin": [
+        "bin/install-files.php"
+    ],
     "autoload": {
         "psr-4": {
             "Ci3Open\\Sso\\": "src/"
