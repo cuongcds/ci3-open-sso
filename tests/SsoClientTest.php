@@ -49,7 +49,7 @@ final class SsoClientTest extends TestCase
         self::assertSame('a@b.com', $result->user->email);
         self::assertSame('Mr A', $result->user->displayName);
         self::assertSame('portal/website', $result->redirectTo);
-        self::assertSame(['token' => 'tok-123', 'client_id' => 'my-app', 'client_secret' => 'secret'], $http->lastQuery);
+        self::assertSame(['token' => 'tok-123', 'client_id' => 'my-app', 'client_secret' => 'secret'], $http->lastFields);
 
         // stashed value must be cleared so it can't leak into a later login
         self::assertNull($store->pullAndClear());

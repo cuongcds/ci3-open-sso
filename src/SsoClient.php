@@ -83,7 +83,9 @@ final class SsoClient
     private function exchangeToken(string $token): SsoUser
     {
         try {
-            $response = $this->httpClient->get(rtrim($this->config->providerHost, '/') . '/oauth/token', [
+            // POST, not GET - client_secret must never end up in a URL
+            // (access logs, browser history, proxies, Referer headers).
+            $response = $this->httpClient->post(rtrim($this->config->providerHost, '/') . '/oauth/token', [
                 'token' => $token,
                 'client_id' => $this->config->clientId,
                 'client_secret' => $this->config->clientSecret,

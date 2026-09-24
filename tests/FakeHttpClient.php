@@ -14,6 +14,9 @@ final class FakeHttpClient implements HttpClientInterface
     /** @var array<string, mixed>|null */
     public ?array $lastQuery = null;
 
+    /** @var array<string, mixed>|null */
+    public ?array $lastFields = null;
+
     public function __construct(private readonly int $statusCode, private readonly string $body)
     {
     }
@@ -22,6 +25,14 @@ final class FakeHttpClient implements HttpClientInterface
     {
         $this->lastUrl = $url;
         $this->lastQuery = $query;
+
+        return new HttpResponse($this->statusCode, $this->body);
+    }
+
+    public function post(string $url, array $fields): HttpResponse
+    {
+        $this->lastUrl = $url;
+        $this->lastFields = $fields;
 
         return new HttpResponse($this->statusCode, $this->body);
     }

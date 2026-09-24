@@ -16,4 +16,13 @@ interface HttpClientInterface
      * @throws SsoException on transport-level failure
      */
     public function get(string $url, array $query): HttpResponse;
+
+    /**
+     * Send a POST request with a form-urlencoded body.
+     *
+     * @param array<string, mixed> $fields
+     *
+     * @throws SsoException on transport-level failure
+     */
+    public function post(string $url, array $fields): HttpResponse;
 }
