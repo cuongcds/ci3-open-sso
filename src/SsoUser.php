@@ -12,7 +12,8 @@ final class SsoUser
     public function __construct(
         public readonly string $email,
         public readonly string $name,
-        public readonly ?string $displayName = null
+        public readonly ?string $displayName = null,
+        public readonly ?string $avatar = null
     ) {
     }
 
@@ -26,6 +27,9 @@ final class SsoUser
             name: (string) ($data['name'] ?? ''),
             displayName: isset($data['display_name']) && $data['display_name'] !== ''
                 ? (string) $data['display_name']
+                : null,
+            avatar: isset($data['avatar']) && $data['avatar'] !== ''
+                ? (string) $data['avatar']
                 : null
         );
     }

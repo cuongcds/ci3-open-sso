@@ -61,6 +61,7 @@ class Opensso_oauth extends CI_Controller
         //         'email' => strtolower($email),
         //         'name' => $result->user->name,
         //         'display_name' => $result->user->displayName ?? $result->user->name,
+        //         'avatar' => $result->user->avatar,
         //     ]);
         // } else {
         //     $accountId = $account['id'];

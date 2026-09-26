@@ -40,7 +40,7 @@ final class SsoClientTest extends TestCase
     {
         $store = new ArrayRedirectStore();
         $store->put('portal/website');
-        $http = new FakeHttpClient(200, '{"email":"a@b.com","name":"A","display_name":"Mr A"}');
+        $http = new FakeHttpClient(200, '{"email":"a@b.com","name":"A","display_name":"Mr A","avatar":"https://accounts.example.com/uploads/a.png"}');
         $client = new SsoClient($this->makeConfig(), $store, $http);
 
         $result = $client->handleCallback('tok-123');
@@ -48,6 +48,7 @@ final class SsoClientTest extends TestCase
         self::assertTrue($result->success);
         self::assertSame('a@b.com', $result->user->email);
         self::assertSame('Mr A', $result->user->displayName);
+        self::assertSame('https://accounts.example.com/uploads/a.png', $result->user->avatar);
         self::assertSame('portal/website', $result->redirectTo);
         self::assertSame(['token' => 'tok-123', 'client_id' => 'my-app', 'client_secret' => 'secret'], $http->lastFields);
 
@@ -66,6 +67,18 @@ final class SsoClientTest extends TestCase
 
         self::assertFalse($result->success);
         self::assertNull($http->lastUrl);
+    }
+
+    public function testHandleCallbackTreatsMissingOrEmptyAvatarAsNull(): void
+    {
+        $store = new ArrayRedirectStore();
+        $http = new FakeHttpClient(200, '{"email":"a@b.com","name":"A","avatar":""}');
+        $client = new SsoClient($this->makeConfig(), $store, $http);
+
+        $result = $client->handleCallback('tok-123');
+
+        self::assertTrue($result->success);
+        self::assertNull($result->user->avatar);
     }
 
     public function testHandleCallbackWithNoEmailInResponseFails(): void
